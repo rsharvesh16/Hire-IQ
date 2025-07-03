@@ -1,0 +1,226 @@
+<!-- templates/hr_dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}HR Dashboard - HireIQ{% endblock %}
+
+{% block additional_css %}
+.interview-card {
+    transition: all 0.3s ease;
+}
+
+.interview-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.status-scheduled {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-in-progress {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.status-completed {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.stats-card {
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row">
+    <!-- Sidebar -->
+    <div class="w-full md:w-64 md:mr-8 mb-6 md:mb-0">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex flex-col items-center">
+                <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                    <i class="fas fa-user-tie text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900">{{ user.full_name }}</h3>
+                <p class="text-sm text-gray-500">HR Manager</p>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-4">
+            <h3 class="font-medium text-gray-900 mb-3">Quick Actions</h3>
+            <nav class="space-y-1">
+                <a href="/hr/create-interview" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    <i class="fas fa-plus-circle mr-3"></i>
+                    Create New Interview
+                </a>
+                <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                    <i class="fas fa-chart-bar mr-3 text-gray-400"></i>
+                    Analytics
+                </a>
+                <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                    <i class="fas fa-cog mr-3 text-gray-400"></i>
+                    Settings
+                </a>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1">
+        <h1 class="text-2xl font-semibold text-gray-900 mb-6">HR Dashboard</h1>
+        {% if message %}
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-green-700">
+                        {{ message }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white overflow-hidden shadow rounded-lg stats-card">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm font-medium text-gray-500 truncate">Total Interviews</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ interviews|length }}</dd>
+                    </dl>
+                </div>
+            </div>
+            
+            <div class="bg-white overflow-hidden shadow rounded-lg stats-card">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm font-medium text-gray-500 truncate">Scheduled</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ interviews|selectattr('status', 'equalto', 'scheduled')|list|length }}</dd>
+                    </dl>
+                </div>
+            </div>
+            
+            <div class="bg-white overflow-hidden shadow rounded-lg stats-card">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm font-medium text-gray-500 truncate">In Progress</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ interviews|selectattr('status', 'equalto', 'in_progress')|list|length }}</dd>
+                    </dl>
+                </div>
+            </div>
+            
+            <div class="bg-white overflow-hidden shadow rounded-lg stats-card">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm font-medium text-gray-500 truncate">Completed</dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ interviews|selectattr('status', 'equalto', 'completed')|list|length }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interview List -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Recent Interviews
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    A list of all interviews you have created.
+                </p>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                {% if interviews %}
+                    {% for interview in interviews %}
+                    <li>
+                        <div class="interview-card block hover:bg-gray-50">
+                            <div class="px-4 py-4 sm:px-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-500"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <p class="text-sm font-medium text-blue-600">
+                                                {{ interview.candidate_name }}
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                {{ interview.job_role }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="ml-2 flex-shrink-0 flex">
+                                        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        {% if interview.status == 'scheduled' %}
+                                            status-scheduled
+                                        {% elif interview.status == 'in_progress' %}
+                                            status-in-progress
+                                        {% elif interview.status == 'completed' %}
+                                            status-completed
+                                        {% endif %}">
+                                            {{ interview.status|replace('_', ' ')|title }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 sm:flex sm:justify-between">
+                                    <div class="sm:flex">
+                                        <p class="flex items-center text-sm text-gray-500">
+                                            <i class="far fa-calendar mr-1.5 text-gray-400"></i>
+                                            {{ interview.scheduled_date.strftime('%d %b %Y, %H:%M') }}
+                                        </p>
+                                        <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                            <i class="far fa-clock mr-1.5 text-gray-400"></i>
+                                            {{ interview.duration }} minutes
+                                        </p>
+                                    </div>
+                                    <div class="mt-2 flex items-center text-sm sm:mt-0">
+                                        {% if interview.status == 'completed' %}
+                                        <a href="/hr/interview/{{ interview.id }}/report" class="text-blue-600 hover:text-blue-800 font-medium">
+                                            View Report <i class="fas fa-chevron-right ml-1"></i>
+                                        </a>
+                                        {% elif interview.status == 'scheduled' %}
+                                        <span class="text-gray-500">Waiting for candidate</span>
+                                        {% elif interview.status == 'in_progress' %}
+                                        <span class="text-blue-600">Interview in progress</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li>
+                        <div class="px-4 py-8 text-center text-gray-500">
+                            <p>No interviews scheduled yet.</p>
+                            <a href="/hr/create-interview" class="inline-flex items-center mt-2 text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-plus-circle mr-1"></i> Create your first interview
+                            </a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add any HR dashboard specific scripts here
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('HR Dashboard loaded');
+    });
+</script>
+{% endblock %}

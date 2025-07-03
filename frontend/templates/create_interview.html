@@ -1,0 +1,246 @@
+<!-- templates/create_interview.html -->
+{% extends "base.html" %}
+
+{% block title %}Create Interview - HireIQ{% endblock %}
+
+{% block additional_css %}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.error-message {
+    color: #EF4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.custom-question-item {
+    background-color: #F3F4F6;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900">Create Interview</h1>
+        <p class="mt-1 text-sm text-gray-500">Schedule a new AI interview for a candidate.</p>
+    </div>
+    
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <form id="createInterviewForm" method="POST" action="/hr/create-interview" enctype="multipart/form-data">
+                <!-- Basic Information Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="candidate_name" class="block text-sm font-medium text-gray-700">Candidate Name</label>
+                            <input type="text" name="candidate_name" id="candidate_name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="job_role" class="block text-sm font-medium text-gray-700">Job Role</label>
+                            <input type="text" name="job_role" id="job_role" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="difficulty" class="block text-sm font-medium text-gray-700">Difficulty Level</label>
+                            <select name="difficulty" id="difficulty" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" required>
+                                <option value="very_easy">Very Easy</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interview_date" class="block text-sm font-medium text-gray-700">Date and Time</label>
+                            <input type="datetime-local" name="interview_date" id="interview_date" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interview_duration" class="block text-sm font-medium text-gray-700">Duration (minutes)</label>
+                            <input type="number" min="10" max="60" name="interview_duration" id="interview_duration" value="30" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="candidate_email" class="block text-sm font-medium text-gray-700">Candidate Email</label>
+                            <input type="email" name="candidate_email" id="candidate_email" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Documents</h3>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="resume" class="block text-sm font-medium text-gray-700">Upload Candidate's Resume (PDF)</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="resume" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload a file</span>
+                                            <input id="resume" name="resume" type="file" accept=".pdf" class="sr-only" required>
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PDF up to 10MB</p>
+                                </div>
+                            </div>
+                            <div id="resumeFileName" class="mt-2 text-sm text-gray-500"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="job_description" class="block text-sm font-medium text-gray-700">Job Description</label>
+                            <textarea name="job_description" id="job_description" rows="4" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required></textarea>
+                            <p class="mt-1 text-xs text-gray-500">Provide a detailed job description to help the AI ask relevant questions.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Custom Questions Section -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Custom Questions (Optional)</h3>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="custom_question" class="block text-sm font-medium text-gray-700">Add Custom Question</label>
+                            <div class="mt-1 flex">
+                                <input type="text" id="custom_question" class="focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300" placeholder="Enter a specific question for the AI to ask">
+                                <button type="button" id="addQuestionBtn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="customQuestionsList" class="space-y-2">
+                            <!-- Custom questions will be displayed here -->
+                        </div>
+                        
+                        <!-- Hidden input to store JSON array of questions -->
+                        <input type="hidden" id="custom_questions" name="custom_questions" value="">
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="flex justify-end pt-5">
+                    <a href="/hr/dashboard" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-3">
+                        Cancel
+                    </a>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Create Interview
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const customQuestions = [];
+        const customQuestionsList = document.getElementById('customQuestionsList');
+        const customQuestionsInput = document.getElementById('custom_questions');
+        const addQuestionBtn = document.getElementById('addQuestionBtn');
+        const customQuestionInput = document.getElementById('custom_question');
+        const resumeInput = document.getElementById('resume');
+        const resumeFileName = document.getElementById('resumeFileName');
+        
+        // Handle file selection
+        resumeInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                resumeFileName.textContent = 'Selected file: ' + this.files[0].name;
+            }
+        });
+        
+        // Add custom question
+        addQuestionBtn.addEventListener('click', function() {
+            const questionText = customQuestionInput.value.trim();
+            if (questionText) {
+                addCustomQuestion(questionText);
+                customQuestionInput.value = '';
+            }
+        });
+        
+        // Allow pressing Enter to add question
+        customQuestionInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addQuestionBtn.click();
+            }
+        });
+        
+        // Function to add a custom question
+        function addCustomQuestion(text) {
+            const questionId = Date.now();
+            customQuestions.push({ id: questionId, text: text });
+            updateCustomQuestionsInput();
+            
+            const questionItem = document.createElement('div');
+            questionItem.className = 'custom-question-item';
+            questionItem.setAttribute('data-id', questionId);
+            
+            questionItem.innerHTML = `
+                <span class="text-sm text-gray-800">${text}</span>
+                <button type="button" class="delete-question text-gray-400 hover:text-red-500 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            customQuestionsList.appendChild(questionItem);
+            
+            // Add delete event listener
+            questionItem.querySelector('.delete-question').addEventListener('click', function() {
+                removeCustomQuestion(questionId);
+                questionItem.remove();
+            });
+        }
+        
+        // Function to remove a custom question
+        function removeCustomQuestion(id) {
+            const index = customQuestions.findIndex(q => q.id === id);
+            if (index !== -1) {
+                customQuestions.splice(index, 1);
+                updateCustomQuestionsInput();
+            }
+        }
+        
+        // Update the hidden input with JSON data
+        function updateCustomQuestionsInput() {
+            customQuestionsInput.value = JSON.stringify(customQuestions.map(q => q.text));
+        }
+        
+        // Set min datetime to now for the interview date picker
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('interview_date').min = now.toISOString().slice(0, 16);
+        
+        // Form validation
+        document.getElementById('createInterviewForm').addEventListener('submit', function(e) {
+            const resumeFile = resumeInput.files[0];
+            if (!resumeFile) {
+                e.preventDefault();
+                alert('Please upload a resume file');
+                return;
+            }
+            
+            if (resumeFile.type !== 'application/pdf') {
+                e.preventDefault();
+                alert('Please upload a PDF file');
+                return;
+            }
+        });
+    });
+</script>
+{% endblock %}

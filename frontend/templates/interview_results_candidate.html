@@ -1,0 +1,199 @@
+<!-- templates/interview_results_candidate.html -->
+{% extends "base.html" %}
+
+{% block title %}Interview Completed - HireIQ{% endblock %}
+
+{% block additional_css %}
+.completion-card {
+    background: linear-gradient(to right, #3B82F6, #10B981);
+    color: white;
+}
+
+.step-item {
+    position: relative;
+    padding-left: 30px;
+}
+
+.step-item:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #D1FAE5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-item:after {
+    content: "✓";
+    position: absolute;
+    left: 6px;
+    top: 0px;
+    color: #065F46;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.step-item:not(:last-child):before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 25px;
+    bottom: -15px;
+    width: 1px;
+    background-color: #D1FAE5;
+}
+
+.feedback-card {
+    transition: all 0.3s ease;
+}
+
+.feedback-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <!-- Completion Banner -->
+    <div class="completion-card rounded-lg shadow-lg p-8 mb-8 text-center">
+        <div class="inline-block p-3 bg-white bg-opacity-20 rounded-full mb-4">
+            <i class="fas fa-check-circle text-4xl"></i>
+        </div>
+        <h1 class="text-3xl font-bold mb-2">Interview Completed!</h1>
+        <p class="text-xl opacity-90">Thank you for participating in the interview.</p>
+    </div>
+    
+    <!-- Next Steps -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">What happens next?</h2>
+        
+        <div class="space-y-6 pl-4">
+            <div class="step-item pt-0">
+                <h3 class="text-lg font-medium text-gray-800">Your interview has been recorded</h3>
+                <p class="text-gray-600 mt-1">Our system has safely stored your responses for review.</p>
+            </div>
+            
+            <div class="step-item">
+                <h3 class="text-lg font-medium text-gray-800">AI analysis in progress</h3>
+                <p class="text-gray-600 mt-1">Our AI is analyzing your responses against the job requirements.</p>
+            </div>
+            
+            <div class="step-item">
+                <h3 class="text-lg font-medium text-gray-800">HR review</h3>
+                <p class="text-gray-600 mt-1">A human recruiter will review your interview and the AI report.</p>
+            </div>
+            
+            <div class="step-item">
+                <h3 class="text-lg font-medium text-gray-800">Results notification</h3>
+                <p class="text-gray-600 mt-1">You will receive the results via email within 2-3 business days.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feedback -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Share your experience</h2>
+        <p class="text-gray-600 mb-6">Help us improve our AI interviewing system by sharing your feedback.</p>
+        
+        <form id="feedbackForm">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="experience">
+                    How was your interview experience?
+                </label>
+                <div class="flex space-x-2 mb-2">
+                    {% for i in range(1, 6) %}
+                    <button type="button" class="rating-btn w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-blue-50 hover:border-blue-500 focus:outline-none" data-rating="{{ i }}">
+                        {{ i }}
+                    </button>
+                    {% endfor %}
+                </div>
+                <p class="text-sm text-gray-500">1 = Poor, 5 = Excellent</p>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="feedback">
+                    Any additional feedback?
+                </label>
+                <textarea id="feedback" name="feedback" rows="4" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Share your thoughts, suggestions, or concerns..."></textarea>
+            </div>
+            
+            <div class="text-right">
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Submit Feedback
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Actions -->
+    <div class="flex justify-between items-center">
+        <a href="/candidate/dashboard" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+        </a>
+        
+        <div>
+            <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2">
+                <i class="far fa-question-circle mr-1"></i> FAQ
+            </a>
+            <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <i class="far fa-envelope mr-1"></i> Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ratingBtns = document.querySelectorAll('.rating-btn');
+        let selectedRating = null;
+        
+        // Rating button selection
+        ratingBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                ratingBtns.forEach(b => b.classList.remove('bg-blue-500', 'text-white', 'border-blue-500'));
+                
+                // Add active class to clicked button
+                this.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+                selectedRating = this.getAttribute('data-rating');
+            });
+        });
+        
+        // Feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const feedback = document.getElementById('feedback').value;
+            
+            // Send feedback to server
+            fetch('/candidate/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    rating: selectedRating,
+                    feedback: feedback
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Thank you for your feedback!');
+                document.getElementById('feedback').value = '';
+                ratingBtns.forEach(b => b.classList.remove('bg-blue-500', 'text-white', 'border-blue-500'));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+{% endblock %}

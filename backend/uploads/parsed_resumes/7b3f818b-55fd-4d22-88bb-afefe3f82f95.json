@@ -1,0 +1,111 @@
+{
+  "contact_info": {
+    "email": "rsharvesh16@gmail.com",
+    "phone": null,
+    "linkedin": "linkedin.com/in/rsharvesh16"
+  },
+  "summary": "SHARVESH R\n+91 98435 14513 rsharvesh16@gmail.com -linkedin.com/in/rsharvesh16 - github.com/rsharvesh16\nEDUCATION\nSRM Institute of Science and Technology Chennai,TamilNadu\nB.Tech, Information Technology (CGPA: 9.67) September2022-May2026\nArmy Public School Chennai,TamilNadu\nClass 12 - PCM (Percentage: 81.2) April2021-March2022\nTECHNICAL SKILLS\nProgramming: Python, C, C++, HTML, CSS, SQL\nLibraries and Tools: Flask, Django, RestAPI, Postgres, PG Vector, AWS-Bedrock, Textract, Git, GitHub, VS Code\nML and Architectures: Regression, Large Language Models, RAG, Agents, Transformers(GPT)\nWORK EXPERIENCE\nData Science Intern\nNexyom, Folsom, California, USA Jan2025-Present\n\u2022 Currently working on developing AI and LLM-based products for the healthcare and startup industries to enhance\noperational efficiency and business growth.\n\u2022 Engaging in research and development of AI-driven applications for medical data processing and decision support\nsystems while collaborating with cross-functional teams to deploy AI models into production environments.\n\u2022 Tech Stacks: Python, Agents, LLMs, Generative AI, NLP, AWS Bedrock, Azure, FastAPI, React, GitHub Actions, Git\nAI Engineer Intern\nGlobal Info Technologies, Tamil Nadu, India July2024-September2024\n\u2022 Developing a comprehensive AI product using AWS Bedrock open source models, including Text2Text, Text2Img,\nText2Code, Img2Text and Retrieval Augmented Generation functionalities.\n\u2022 Conducted research and experimentation with cutting-edge AI tools and models, including implementing vector\nembeddings with FAISS for a Retrieval Augmented Generation (RAG) application.\n\u2022 Tech stacks: AWS Bedrock, Python, Streamlit, Vector Embeddings - FAISS, Hugging Face Transformers, Google\nGenerative AI API, OpenAI API, Git, GitHub.\nJunior Developer Intern\nInnotech Titans, Tamil Nadu, India September2023-Present\n\u2022 Designed and developed Prompt2Flow, a platform allowing users to submit prompts and receive flowcharts and\nother diagrams for visual representations.\n\u2022 Achieved a significant 60% improvement in prompt-to-diagram conversion efficiency, greatly enhancing the user\nexperience by streamlining the representation process and reducing the time required for generating accurate\nvisual diagrams. Implemented API automation to optimize research, which increased speed.\n\u2022 Tech Stacks: Python, Flask, Streamlit, RestAPI, Google Generative AI API, Mermaid JS, GUI-Tkinter, Git, GitHub.\nPROJECTS AND HACKATHONS\n\u2022 PredictIt : Next Gen Crop Prediction, Led a team in a national hackathon, developing a Crop Yield Prediction\nSystem with 99.8% accuracy using Random Forest, winning first prize. Integrated Deep Learning for crop disease\ndetection and an AI chatbot for agricultural queries. GitHub\n\u2022 ResqAI : Emergency Companion, Built an AI tool for real-time weather forecasts, earthquake data, disaster\nanalysis, and AI-generated emergency response plans using AI Models and LLMs for up-to-date news. Won third\nprize in the Project Day contest. GitHub\n\u2022 RAGify - Retrieval Augmented Generation Using AWS, Implemented using AWS Bedrock Titan Embeddings for\ngenerating and storing embeddings in FAISS, with a Streamlit app for querying PDF documents and providing\ndetailed answers using LLM models like LLama3, Mistral, and Amazon Titan Text. GitHub\n\u2022 SmartDoc: Intelligent Document Processing with LLM Integration, SmartDoc is an intelligent document\nprocessing system that leverages OCR and LLM integration to convert, analyze, and extract valuable information\nfrom PDFs. GitHub\nCERTIFICATIONS\n\u2022 NPTEL - Programming, Data Structures And Algorithms Using Python\n\u2022 HackerRank - Python (Basic)\nACHIEVEMENTS\n\u2022 Academic Excellence - Ranked Top 3 in 2nd Semester with 9.76 GPA - May 2023\n\u2022 Coding - Ranked 9877 out of 100000+ Candidates in Codekaze by Coding Ninjas and Naukri - September 2023",
+  "education": [
+    {
+      "degree": "as",
+      "year": "2021"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Nexyom",
+      "title": "Folsom, California, USA Jan2025-Present",
+      "duration": "Jan2025-Present",
+      "description": [
+        "Currently working on developing AI and LLM-based products for the healthcare and startup industries to enhance",
+        "operational efficiency and business growth.",
+        "Engaging in research and development of AI-driven applications for medical data processing and decision support",
+        "systems while collaborating with cross-functional teams to deploy AI models into production environments.",
+        "Tech Stacks: Python, Agents, LLMs, Generative AI, NLP, AWS Bedrock, Azure, FastAPI, React, GitHub Actions, Git",
+        "AI Engineer Intern"
+      ]
+    },
+    {
+      "company": "Global Info Technologies",
+      "title": "Tamil Nadu, India July2024-September2024",
+      "duration": "July2024-September2024",
+      "description": [
+        "Developing a comprehensive AI product using AWS Bedrock open source models, including Text2Text, Text2Img,",
+        "Text2Code, Img2Text and Retrieval Augmented Generation functionalities.",
+        "Conducted research and experimentation with cutting-edge AI tools and models, including implementing vector",
+        "embeddings with FAISS for a Retrieval Augmented Generation (RAG) application.",
+        "Tech stacks: AWS Bedrock, Python, Streamlit, Vector Embeddings - FAISS, Hugging Face Transformers, Google",
+        "Generative AI API, OpenAI API, Git, GitHub.",
+        "Junior Developer Intern"
+      ]
+    },
+    {
+      "company": "Innotech Titans",
+      "title": "Tamil Nadu, India September2023-Present",
+      "duration": "September2023-Present",
+      "description": [
+        "Designed and developed Prompt2Flow, a platform allowing users to submit prompts and receive flowcharts and",
+        "other diagrams for visual representations.",
+        "Achieved a significant 60% improvement in prompt-to-diagram conversion efficiency, greatly enhancing the user",
+        "experience by streamlining the representation process and reducing the time required for generating accurate",
+        "visual diagrams. Implemented API automation to optimize research, which increased speed.",
+        "Tech Stacks: Python, Flask, Streamlit, RestAPI, Google Generative AI API, Mermaid JS, GUI-Tkinter, Git, GitHub.",
+        "PROJECTS"
+      ]
+    }
+  ],
+  "skills": [
+    "aws",
+    "r",
+    "nlp",
+    "flask",
+    "deep learning",
+    "react",
+    "python",
+    "css",
+    "git",
+    "html",
+    "azure",
+    "ai",
+    "sql",
+    "django"
+  ],
+  "projects": [
+    {
+      "name": "PROJECTS AND HACKATHONS",
+      "technologies": [],
+      "description": [
+        "PredictIt : Next Gen Crop Prediction, Led a team in a national hackathon, developing a Crop Yield Prediction"
+      ]
+    },
+    {
+      "name": "System with 99.8% accuracy using Random Forest, winning first prize. Integrated Deep Learning for crop disease",
+      "technologies": [
+        "python",
+        "python",
+        "ai",
+        "ai",
+        "ai",
+        "aws"
+      ],
+      "description": [
+        "detection and an AI chatbot for agricultural queries. GitHub",
+        "ResqAI : Emergency Companion, Built an AI tool for real-time weather forecasts, earthquake data, disaster",
+        "analysis, and AI-generated emergency response plans using AI Models and LLMs for up-to-date news. Won third",
+        "prize in the Project Day contest. GitHub",
+        "RAGify - Retrieval Augmented Generation Using AWS, Implemented using AWS Bedrock Titan Embeddings for",
+        "generating and storing embeddings in FAISS, with a Streamlit app for querying PDF documents and providing",
+        "detailed answers using LLM models like LLama3, Mistral, and Amazon Titan Text. GitHub",
+        "SmartDoc: Intelligent Document Processing with LLM Integration, SmartDoc is an intelligent document",
+        "processing system that leverages OCR and LLM integration to convert, analyze, and extract valuable information",
+        "from PDFs. GitHub",
+        "CERTIFICATIONS",
+        "NPTEL - Programming, Data Structures And Algorithms Using Python",
+        "HackerRank - Python (Basic)",
+        "ACHIEVEMENTS",
+        "Academic Excellence - Ranked Top 3 in 2nd Semester with 9.76 GPA - May 2023",
+        "Coding - Ranked 9877 out of 100000+ Candidates in Codekaze by Coding Ninjas and Naukri - September 2023"
+      ]
+    }
+  ]
+}

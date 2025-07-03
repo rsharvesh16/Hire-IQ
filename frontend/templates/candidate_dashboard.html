@@ -1,0 +1,346 @@
+<!-- templates/candidate_dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Candidate Dashboard - HireIQ{% endblock %}
+
+{% block additional_css %}
+.interview-card {
+    transition: all 0.3s ease;
+}
+
+.interview-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.status-scheduled {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-in-progress {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.status-completed {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.welcome-banner {
+    background: linear-gradient(to right, #3B82F6, #10B981);
+    color: white;
+}
+
+.tips-card {
+    transition: all 0.3s ease;
+}
+
+.tips-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tips-icon {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3B82F6;
+    padding: 10px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; 
+    margin-bottom: 12px;
+}
+
+.no-interviews {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.no-interviews-icon {
+    font-size: 3rem;
+    color: #E5E7EB;
+    margin-bottom: 16px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner mb-6 rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold">Welcome, {{ user.full_name }}</h1>
+        <p class="mt-2">Your upcoming interviews are listed below. Good luck!</p>
+    </div>
+    
+    <!-- Interview List -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Your Interviews
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+                Interviews scheduled for you by hiring managers.
+            </p>
+        </div>
+        <ul class="divide-y divide-gray-200">
+            {% if interviews %}
+                {% for interview in interviews %}
+                <li>
+                    <div class="interview-card block hover:bg-gray-50">
+                        <div class="px-4 py-4 sm:px-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-lg font-medium text-blue-600">
+                                        {{ interview.job_role }}
+                                    </h4>
+                                    <p class="text-sm text-gray-500">
+                                        Scheduled by: {{ interview.hr_name }}
+                                    </p>
+                                </div>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {% if interview.status == 'scheduled' %}
+                                        status-scheduled
+                                    {% elif interview.status == 'in_progress' %}
+                                        status-in-progress
+                                    {% elif interview.status == 'completed' %}
+                                        status-completed
+                                    {% endif %}">
+                                        {{ interview.status|replace('_', ' ')|title }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="flex items-center text-sm text-gray-500">
+                                        <i class="far fa-calendar mr-1.5 text-gray-400"></i>
+                                        {{ interview.scheduled_date.strftime('%d %b %Y, %H:%M') }}
+                                    </p>
+                                    <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                        <i class="far fa-clock mr-1.5 text-gray-400"></i>
+                                        {{ interview.duration }} minutes
+                                    </p>
+                                </div>
+                                <div class="mt-2 flex items-center text-sm sm:mt-0">
+                                    {% if interview.status == 'scheduled' %}
+                                        {% if interview.scheduled_date <= now %}
+                                        <a href="/candidate/interview/{{ interview.id }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            Start Interview
+                                        </a>
+                                        {% else %}
+                                        <span class="text-gray-500">Available on {{ interview.scheduled_date.strftime('%d %b') }}</span>
+                                        {% endif %}
+                                    {% elif interview.status == 'in_progress' %}
+                                        <a href="/candidate/interview/{{ interview.id }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            Resume Interview
+                                        </a>
+                                    {% elif interview.status == 'completed' %}
+                                        <span class="text-green-600 font-medium">
+                                            <i class="fas fa-check-circle mr-1"></i> Completed
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li>
+                    <div class="no-interviews">
+                        <div class="no-interviews-icon">
+                            <i class="far fa-calendar-times"></i>
+                        </div>
+                        <p class="text-gray-500">No interviews scheduled for you yet.</p>
+                        <p class="mt-2 text-sm text-gray-400">Check back later or contact your hiring manager.</p>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    
+    <!-- Tips Section -->
+    <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Interview Tips</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="tips-card bg-blue-50 p-4 rounded-md">
+                <div class="tips-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h4 class="font-medium text-blue-800 mb-2">Prepare Your Environment</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Find a quiet space with minimal background noise</li>
+                    <li>• Ensure good lighting so your face is clearly visible</li>
+                    <li>• Test your microphone and camera beforehand</li>
+                    <li>• Close unnecessary applications to improve performance</li>
+                </ul>
+            </div>
+            
+            <div class="tips-card bg-green-50 p-4 rounded-md">
+                <div class="tips-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h4 class="font-medium text-green-800 mb-2">Professional Presentation</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Dress professionally as you would for an in-person interview</li>
+                    <li>• Maintain eye contact by looking at the camera</li>
+                    <li>• Sit with good posture and appear engaged</li>
+                    <li>• Keep your resume and notes nearby for reference</li>
+                </ul>
+            </div>
+            
+            <div class="tips-card bg-purple-50 p-4 rounded-md">
+                <div class="tips-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h4 class="font-medium text-purple-800 mb-2">Communication Tips</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Speak clearly and at a moderate pace</li>
+                    <li>• Use the STAR method for behavioral questions</li>
+                    <li>• Take a moment to gather your thoughts before answering</li>
+                    <li>• Be concise but thorough in your responses</li>
+                </ul>
+            </div>
+            
+            <div class="tips-card bg-yellow-50 p-4 rounded-md">
+                <div class="tips-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h4 class="font-medium text-yellow-800 mb-2">Technical Preparation</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Research the company and role thoroughly</li>
+                    <li>• Review common interview questions for your position</li>
+                    <li>• Prepare questions to ask at the end of the interview</li>
+                    <li>• Practice your responses with a friend or mentor</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Upcoming Interviews Calendar -->
+    {% if interviews %}
+    <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Interview Schedule</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job Role</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for interview in interviews %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ interview.job_role }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">{{ interview.scheduled_date.strftime('%d %b %Y, %H:%M') }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">{{ interview.duration }} minutes</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            {% if interview.status == 'scheduled' %}
+                                status-scheduled
+                            {% elif interview.status == 'in_progress' %}
+                                status-in-progress
+                            {% elif interview.status == 'completed' %}
+                                status-completed
+                            {% endif %}">
+                                {{ interview.status|replace('_', ' ')|title }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Resources Section -->
+    <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Additional Resources</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="#" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                        <i class="fas fa-book text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Interview Guides</h4>
+                        <p class="text-xs text-gray-500">Comprehensive resources for interview preparation</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                        <i class="fas fa-video text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Practice Interviews</h4>
+                        <p class="text-xs text-gray-500">Schedule a mock interview session</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                        <i class="fas fa-question-circle text-purple-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">FAQ</h4>
+                        <p class="text-xs text-gray-500">Answers to common questions about our platform</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        const tooltips = document.querySelectorAll('[data-tooltip]');
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', function() {
+                const tooltipText = this.getAttribute('data-tooltip');
+                const tooltipElem = document.createElement('div');
+                tooltipElem.classList.add('tooltip');
+                tooltipElem.textContent = tooltipText;
+                document.body.appendChild(tooltipElem);
+                
+                const rect = this.getBoundingClientRect();
+                tooltipElem.style.top = `${rect.top - tooltipElem.offsetHeight - 10}px`;
+                tooltipElem.style.left = `${rect.left + (rect.width / 2) - (tooltipElem.offsetWidth / 2)}px`;
+                tooltipElem.classList.add('visible');
+            });
+            
+            tooltip.addEventListener('mouseleave', function() {
+                const tooltips = document.querySelectorAll('.tooltip');
+                tooltips.forEach(tooltip => tooltip.remove());
+            });
+        });
+        
+        // Animate interview cards on load
+        const cards = document.querySelectorAll('.interview-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
+</script>
+{% endblock %}

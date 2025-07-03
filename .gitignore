@@ -1,3 +1,8 @@
+backend/uploads/audio/
+backend/uploads/resumes/
+backend/uploads/videos/
+backend/uploads/reports/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

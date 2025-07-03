@@ -1,0 +1,78 @@
+# # Web Framework
+# fastapi==0.104.1
+# uvicorn==0.24.0
+# python-multipart==0.0.6
+# pydantic==2.4.2
+# jinja2==3.1.2
+# python-dotenv==1.0.0
+# httpx==0.25.0
+
+# # Authentication
+# passlib==1.7.4
+# python-jose==3.3.0
+# bcrypt==4.0.1
+
+# # Database
+# sqlalchemy==2.0.22
+# alembic==1.12.0
+# sqlite3==1.0.0
+
+# # LLM and AWS
+# boto3==1.28.62
+# langchain==0.0.310
+# langchain-aws==0.1.0
+# aws-cdk-lib==2.99.1
+
+# # PDF Processing
+# pypdf==3.17.0
+# pdfminer.six==20221105
+# reportlab==4.0.4
+# weasyprint==60.1
+
+# # Audio Processing
+# pydub==0.25.1
+# webrtcvad==2.0.10
+# speechrecognition==3.10.0
+
+# # Natural Language Processing
+# spacy==3.7.1
+# nltk==3.8.1
+# transformers==4.34.0
+
+# # Utilities
+# python-slugify==8.0.1
+# tqdm==4.66.1
+# pillow==10.1.0
+# matplotlib==3.8.0
+# seaborn==0.13.0
+
+
+fastapi
+uvicorn
+langchain 
+langchain_community
+faiss-cpu 
+pydantic 
+pdf2image 
+pytesseract 
+python-multipart 
+moviepy 
+numpy 
+opencv-python 
+deepface 
+transformers 
+torch 
+pandas 
+reportlab 
+sqlalchemy
+db-sqlite3
+pypdf2
+spacy
+boto3
+langchain_aws
+pydub
+matplotlib
+pdfplumber
+pydantic[email]
+soundfile
+#python -m spacy download en_core_web_sm
